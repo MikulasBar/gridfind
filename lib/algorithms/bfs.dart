@@ -1,13 +1,11 @@
 import 'dart:collection';
-
-import 'package:collection/collection.dart';
 import 'package:gridfind/gridfind.dart';
 
 class BFS extends PathFindingStrategy<BFSState> {
   @override
   void searchStep(BFSState state) {
     // If there is no open node, we are stuck.
-    if (state.open.isEmpty) { 
+    if (state.open.isEmpty) {
       state.status = Status.failure;
       return;
     }
@@ -15,8 +13,7 @@ class BFS extends PathFindingStrategy<BFSState> {
     Point point = state.open.removeFirst();
     point.set(state.grid, Node.closed);
 
-    // We can return because the cost is checked when target node is open.
-    // And parent is already set from that stage.  
+    // We can return because the target node is reached.
     if (state.target.get(state.grid) == Node.closed) {
       state.status = Status.success;
       return;
@@ -26,19 +23,10 @@ class BFS extends PathFindingStrategy<BFSState> {
       Point newPos = Point(point.x + i, point.y + j);
       if (state.isUntraversable(newPos)) continue;
       Node newNode = newPos.get(state.grid);
-      // We first need to check if the point is out of bounds and then get the Node.
       if (newNode == Node.closed) continue;
 
-      final newPosParent = state.parents[newPos];
-      final parentCost = state.cost[newPosParent];
-      final pointCost = state.cost[point]!;
-      // First check the node because when it's not open it will throw error due to the ! null check.
-      if (newNode != Node.open || parentCost! > pointCost) {
+      if (newNode != Node.open) {
         state.parents[newPos] = point;
-        // Every values is derived from parent: parentCost + 1.
-        // Closer to start is better.
-        state.cost[newPos] = pointCost + 1;
-        state.open.remove(newPos);
         state.open.add(newPos);
         newPos.set(state.grid, Node.open);
       }
@@ -47,8 +35,7 @@ class BFS extends PathFindingStrategy<BFSState> {
 }
 
 class BFSState extends PathFindingState {
-  late HeapPriorityQueue<Point> open;
-  late HashMap<Point, int> cost;
+  late Queue<Point> open;
 
   BFSState({
     required super.start,
@@ -57,18 +44,23 @@ class BFSState extends PathFindingState {
     required super.status,
     required super.parents,
     required super.dirs,
-    required this.cost,
     required this.open,
   });
 
   BFSState.init(
-    super.start,
-    super.target,
-    super.grid,
-    super.allowDiagonals,
-  ) : super.init() {
-    cost = HashMap.from({start: 0});
-    open = HeapPriorityQueue<Point>((a, b) => cost[a]!.compareTo(cost[b]!));
+    Point start,
+    Point target,
+    List<List<Node>> grid,
+    bool allowDiagonals,
+  ) : super(
+          start: start,
+          target: target,
+          grid: grid,
+          status: Status.search,
+          parents: HashMap(),
+          dirs: allowDiagonals ? dirs8 : dirs4,
+        ) {
+    open = Queue<Point>();
     open.add(start);
     start.set(grid, Node.open);
   }
@@ -76,14 +68,13 @@ class BFSState extends PathFindingState {
   @override
   BFSState copy() {
     return BFSState(
-      status: status,
       start: start,
       target: target,
       grid: List.generate(grid.length, (i) => List.from(grid[i])),
       parents: HashMap.from(parents),
       dirs: List.from(dirs),
-      cost: HashMap.from(cost),
-      open: open..addAll(open.toList())
+      open: Queue.from(open),
+      status: status,
     );
   }
 }

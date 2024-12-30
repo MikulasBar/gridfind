@@ -12,3 +12,8 @@
 ### Added
 - Change collection version to 1.18.0 (otherwise it would't be compatible with flutter)
 - Add allowDiagonals option for state.
+
+## 0.1.3-alpha - 2024-12-30
+### Added
+- Shrink the BFS algorithm to minimum.
+
