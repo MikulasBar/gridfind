@@ -17,3 +17,6 @@
 ### Added
 - Shrink the BFS algorithm to minimum.
 
+## 0.2.0-beta - 2024-12-31
+### Added
+- Added DFS, A*, Dijkstra algorithms.

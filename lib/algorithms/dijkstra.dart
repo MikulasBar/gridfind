@@ -1,9 +1,13 @@
+
+
 import 'dart:collection';
+
+import 'package:collection/collection.dart';
 import 'package:gridfind/gridfind.dart';
 
-class BFS extends PathFindingStrategy<BFSState> {
+class Dijkstra extends PathFindingStrategy<DijkstraState> {
   @override
-  void searchStep(BFSState state) {
+  void searchStep(DijkstraState state) {
     // If there is no open node, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
@@ -13,8 +17,8 @@ class BFS extends PathFindingStrategy<BFSState> {
     Point point = state.open.removeFirst();
     point.set(state.grid, Node.closed);
 
-    // We can return because the target node is reached.
-    if (state.target.get(state.grid) == Node.closed) {
+    // If the target node is reached, we are done.
+    if (point == state.target) {
       state.status = Status.success;
       return;
     }
@@ -22,22 +26,31 @@ class BFS extends PathFindingStrategy<BFSState> {
     for (var (i, j) in state.dirs) {
       Point newPos = Point(point.x + i, point.y + j);
       if (state.isUntraversable(newPos)) continue;
+
       Node newNode = newPos.get(state.grid);
       if (newNode == Node.closed) continue;
 
-      if (newNode != Node.open) {
+      int newGCost = state.gCost[point]! + 1; // Assuming uniform cost
+
+      if (newGCost < (state.gCost[newPos] ?? double.infinity)) {
         state.parents[newPos] = point;
-        state.open.add(newPos);
-        newPos.set(state.grid, Node.open);
+        state.gCost[newPos] = newGCost;
+
+        if (newNode != Node.open) {
+          state.open.add(newPos);
+          newPos.set(state.grid, Node.open);
+        }
       }
     }
   }
 }
 
-class BFSState extends PathFindingState {
-  late Queue<Point> open;
 
-  BFSState({
+class DijkstraState extends PathFindingState {
+  late PriorityQueue<Point> open;
+  late Map<Point, int> gCost;
+
+  DijkstraState({
     required super.start,
     required super.target,
     required super.grid,
@@ -45,29 +58,37 @@ class BFSState extends PathFindingState {
     required super.parents,
     required super.dirs,
     required this.open,
+    required this.gCost,
   });
 
-  BFSState.init(
+  DijkstraState.init(
     Point start,
     Point target,
     List<List<Node>> grid,
     bool allowDiagonals,
   ) : super.init(start, target, grid, allowDiagonals) {
-    open = Queue<Point>();
+    gCost = {start: 0};
+    open = PriorityQueue<Point>((a, b) => gCost[a]!.compareTo(gCost[b]!));
     open.add(start);
     start.set(grid, Node.open);
   }
 
   @override
-  BFSState copy() {
-    return BFSState(
+  DijkstraState copy() {
+    var newState = DijkstraState(
       start: start,
       target: target,
       grid: List.generate(grid.length, (i) => List.from(grid[i])),
       parents: HashMap.from(parents),
       dirs: List.from(dirs),
-      open: Queue.from(open),
+      gCost: Map.from(gCost),
+      open: PriorityQueue<Point>((a, b) => gCost[a]!.compareTo(gCost[b]!)),
       status: status,
     );
+
+    newState.open = PriorityQueue<Point>((a, b) => newState.gCost[a]!.compareTo(newState.gCost[b]!));
+    newState.open.addAll(open.toList());
+
+    return newState;
   }
 }

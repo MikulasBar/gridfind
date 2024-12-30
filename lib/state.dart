@@ -1,10 +1,9 @@
 
 import 'dart:collection';
-import 'dart:io';
 import 'package:gridfind/gridfind.dart';
 
-const dirs4 = [(1, 0), (-1, 0), (0, 1), (0, -1)];
-const dirs8 = [(1, 0), (-1, 0), (0, 1), (0, -1), (-1, -1), (-1, 1), (1, 1), (1, -1)];
+const dirs4 = [(1, 0), (0, 1), (-1, 0), (0, -1)];
+const dirs8 = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1)];
 
 abstract class PathFindingState {
   Point start;
@@ -45,14 +44,14 @@ abstract class PathFindingState {
       || p.get(grid) == Node.obstacle;
   }
 
-  void print() {
-    for (var i = 0; i < width; i++) {
-      for (var j = 0; j < height; j++) {
-        stdout.write(grid[i][j].toChar());
-      }
-      stdout.writeln();
-    }
-    stdout.writeln();
-  }
+  // void print() {
 
+  //   for (var i = 0; i < width; i++) {
+  //     for (var j = 0; j < height; j++) {
+  //       stdout.write(grid[i][j].toChar());
+  //     }
+  //     stdout.writeln();
+  //   }
+  //   stdout.writeln();
+  // }
 }

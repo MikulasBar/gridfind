@@ -10,7 +10,7 @@ abstract class PathFindingStrategy<S extends PathFindingState> {
   List<Point>? solve(S state) {
     var status = state.status;
     while (status == Status.search) {
-      state.print(); // debug purposes only
+      // state.print(); // debug purposes only
       searchStep(state);
       status = state.status;
     }

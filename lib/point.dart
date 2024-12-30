@@ -1,6 +1,4 @@
 
-import 'dart:math';
-
 class Point {
   int x;
   int y;
@@ -26,13 +24,5 @@ class Point {
   void set<T>(List<List<T>> grid, T val) {
     grid[x][y] = val;
   }
-
-  int taxicab(Point rhs) {
-    return (x - rhs.x).abs() + (y - rhs.y).abs();
-  }
-
-  int chebyshev(Point rhs) {
-    return max((x - rhs.x).abs(), (y - rhs.y).abs());
-  } 
 }
 

@@ -1,16 +1,20 @@
+
+
 import 'dart:collection';
+
 import 'package:gridfind/gridfind.dart';
 
-class BFS extends PathFindingStrategy<BFSState> {
+class DFS extends PathFindingStrategy<DFSState> {
+
   @override
-  void searchStep(BFSState state) {
+  void searchStep(DFSState state) {
     // If there is no open node, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
       return;
     }
 
-    Point point = state.open.removeFirst();
+    Point point = state.open.removeLast();
     point.set(state.grid, Node.closed);
 
     // We can return because the target node is reached.
@@ -34,10 +38,11 @@ class BFS extends PathFindingStrategy<BFSState> {
   }
 }
 
-class BFSState extends PathFindingState {
-  late Queue<Point> open;
 
-  BFSState({
+class DFSState extends PathFindingState {
+  late List<Point> open;
+
+  DFSState({
     required super.start,
     required super.target,
     required super.grid,
@@ -47,26 +52,25 @@ class BFSState extends PathFindingState {
     required this.open,
   });
 
-  BFSState.init(
+  DFSState.init(
     Point start,
     Point target,
     List<List<Node>> grid,
     bool allowDiagonals,
   ) : super.init(start, target, grid, allowDiagonals) {
-    open = Queue<Point>();
-    open.add(start);
+    open = [start];
     start.set(grid, Node.open);
   }
 
   @override
-  BFSState copy() {
-    return BFSState(
+  DFSState copy() {
+    return DFSState(
       start: start,
       target: target,
       grid: List.generate(grid.length, (i) => List.from(grid[i])),
       parents: HashMap.from(parents),
       dirs: List.from(dirs),
-      open: Queue.from(open),
+      open: List.from(open),
       status: status,
     );
   }
