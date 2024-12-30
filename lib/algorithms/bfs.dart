@@ -22,8 +22,7 @@ class BFS extends PathFindingStrategy<BFSState> {
       return;
     }
 
-    // TODO: change the list of directions. User should be able to change if diagonal is allowed.
-    for (var (i, j) in [(1, 0), (-1, 0), (0, 1), (0, -1)]) {
+    for (var (i, j) in state.dirs) {
       Point newPos = Point(point.x + i, point.y + j);
       if (state.isUntraversable(newPos)) continue;
       Node newNode = newPos.get(state.grid);
@@ -57,6 +56,7 @@ class BFSState extends PathFindingState {
     required super.grid,
     required super.status,
     required super.parents,
+    required super.dirs,
     required this.cost,
     required this.open,
   });
@@ -65,6 +65,7 @@ class BFSState extends PathFindingState {
     super.start,
     super.target,
     super.grid,
+    super.allowDiagonals,
   ) : super.init() {
     cost = HashMap.from({start: 0});
     open = HeapPriorityQueue<Point>((a, b) => cost[a]!.compareTo(cost[b]!));
@@ -80,6 +81,7 @@ class BFSState extends PathFindingState {
       target: target,
       grid: List.generate(grid.length, (i) => List.from(grid[i])),
       parents: HashMap.from(parents),
+      dirs: List.from(dirs),
       cost: HashMap.from(cost),
       open: open..addAll(open.toList())
     );

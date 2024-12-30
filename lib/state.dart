@@ -3,12 +3,16 @@ import 'dart:collection';
 import 'dart:io';
 import 'package:gridfind/gridfind.dart';
 
+const dirs4 = [(1, 0), (-1, 0), (0, 1), (0, -1)];
+const dirs8 = [(1, 0), (-1, 0), (0, 1), (0, -1), (-1, -1), (-1, 1), (1, 1), (1, -1)];
+
 abstract class PathFindingState {
   Point start;
   Point target;
   List<List<Node>> grid;
   HashMap<Point, Point> parents;
   Status status;
+  List<(int, int)> dirs;
 
   PathFindingState({
     required this.start,
@@ -16,14 +20,17 @@ abstract class PathFindingState {
     required this.grid,
     required this.parents,
     required this.status,
+    required this.dirs,
   });
 
   PathFindingState.init(
     this.start,
     this.target,
     this.grid,
+    bool allowDiagonals,
   )  : parents = HashMap(),
-      status = Status.search;
+      status = Status.search,
+      dirs = allowDiagonals ? dirs8 : dirs4;
 
   PathFindingState copy();
 

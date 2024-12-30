@@ -6,8 +6,7 @@ void main() {
   const width = 10;
   const height = 18;
   final grid = List.generate(width, (_) => List.generate(height, (_) => Node.idle));
-
-  var state = BFSState.init(start, target, grid);
+  var state = BFSState.init(start, target, grid, true);
   final path = BFS().solve(state);
 
   print(path);

@@ -7,3 +7,8 @@
 ### Added
 - Refactor of BFS algorithm.
 - Optimize BFS algorithm.
+
+## 0.1.2-alpha - 2024-12-30
+### Added
+- Change collection version to 1.18.0 (otherwise it would't be compatible with flutter)
+- Add allowDiagonals option for state.
