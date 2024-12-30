@@ -33,7 +33,7 @@ abstract class PathFindingStrategy<S extends PathFindingState> {
 
     while (current != state.start) {
       path.add(current);
-      current = current.get(state.parents)!;
+      current = state.parents[current]!;
     }
 
     path.add(state.start);

@@ -1,19 +1,16 @@
 
 import 'dart:collection';
 import 'dart:io';
-
 import 'package:gridfind/gridfind.dart';
 
 abstract class PathFindingState {
-  HashSet<Point> open; // Theoretically it doesn't need to be HashSet but I'm too lazy to optimize it.
   Point start;
   Point target;
   List<List<Node>> grid;
-  List<List<Point?>> parents;
+  HashMap<Point, Point> parents;
   Status status;
 
   PathFindingState({
-    required this.open,
     required this.start,
     required this.target,
     required this.grid,
@@ -21,10 +18,14 @@ abstract class PathFindingState {
     required this.status,
   });
 
-  // This is fucntion that will construct and setup the state.
-  static PathFindingState init(Point start, Point target, List<List<Node>> grid) {
-    throw UnimplementedError("This function must be initialized");
-  }
+  PathFindingState.init(
+    this.start,
+    this.target,
+    this.grid,
+  )  : parents = HashMap(),
+      status = Status.search;
+
+  PathFindingState copy();
 
   int get width => grid.length;
   int get height => grid[0].length;
@@ -32,8 +33,8 @@ abstract class PathFindingState {
   bool isUntraversable(Point p) {
     return p.x < 0
       || p.y < 0
-      || p.x >= grid.length
-      || p.y >= grid[0].length
+      || p.x >= width
+      || p.y >= height
       || p.get(grid) == Node.obstacle;
   }
 
@@ -46,4 +47,5 @@ abstract class PathFindingState {
     }
     stdout.writeln();
   }
+
 }
