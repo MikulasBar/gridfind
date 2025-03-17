@@ -1,14 +1,14 @@
 
-class Point {
+class GridPoint {
   int x;
   int y;
 
-  Point(this.x, this.y);
+  GridPoint(this.x, this.y);
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is! Point) return false;
+    if (other is! GridPoint) return false;
     return x == other.x && y == other.y;
   }
 

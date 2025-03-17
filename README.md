@@ -8,7 +8,7 @@
 
 Provides path finding algorithms for 2D n*m grid.
 
-There is currently only BFS algorithm.
+There is currently only GridBFS algorithm.
 
 ## Features
 
@@ -27,7 +27,7 @@ void main() {
   const size = 5;
   final grid = List.generate(size, (_) => List.generate(size, (_) => Node.idle));
 
-  var state = BFSState.init(start, target, grid);
+  var state =  GridBFSState.init(start, target, grid);
   final path = BFS().solve(state);
 
   print(path);

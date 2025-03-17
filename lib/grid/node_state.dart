@@ -1,5 +1,5 @@
  
-enum Node {
+enum NodeState {
   idle,
   obstacle,
   open,

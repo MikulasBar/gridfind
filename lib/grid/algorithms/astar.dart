@@ -3,32 +3,32 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:gridfind/gridfind.dart';
+import 'package:gridfind/grid/grid.dart';
 
-class Astar extends PathFindingStrategy<AstarState> {
+class GridAstar extends GridStrategy<GridAstarState> {
   @override
-  void searchStep(AstarState state) {
-    // If there is no open node, we are stuck.
+  void searchStep(GridAstarState state) {
+    // If there is no open NodeState, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
       return;
     }
 
-    Point point = state.open.removeFirst();
-    point.set(state.grid, Node.closed);
+    GridPoint point = state.open.removeFirst();
+    point.set(state.grid, NodeState.closed);
 
-    // If the target node is reached, we are done.
-    if (state.target.get(state.grid) == Node.closed) {
+    // If the target NodeState is reached, we are done.
+    if (state.target.get(state.grid) == NodeState.closed) {
       state.status = Status.success;
       return;
     }
 
     for (var (i, j) in state.dirs) {
-      Point newPos = Point(point.x + i, point.y + j);
+      GridPoint newPos = GridPoint(point.x + i, point.y + j);
       if (state.isUntraversable(newPos)) continue;
 
-      Node newNode = newPos.get(state.grid);
-      if (newNode == Node.closed) continue;
+      NodeState newNodeState = newPos.get(state.grid);
+      if (newNodeState == NodeState.closed) continue;
 
       int newGCost = state.gCost[point]! + 1; // Assuming uniform cost
 
@@ -37,9 +37,9 @@ class Astar extends PathFindingStrategy<AstarState> {
         state.gCost[newPos] = newGCost;
         state.fCost[newPos] = newGCost + state.heuristic(newPos, state.target);
 
-        if (newNode != Node.open) {
+        if (newNodeState != NodeState.open) {
           state.open.add(newPos);
-          newPos.set(state.grid, Node.open);
+          newPos.set(state.grid, NodeState.open);
         }
       }
     }
@@ -47,13 +47,13 @@ class Astar extends PathFindingStrategy<AstarState> {
 }
 
 
-class AstarState extends PathFindingState {
-  late PriorityQueue<Point> open;
-  late Map<Point, int> fCost;
-  late Map<Point, int> gCost; 
-  late int Function(Point, Point) heuristic;
+class GridAstarState extends GridState {
+  late PriorityQueue<GridPoint> open;
+  late Map<GridPoint, int> fCost;
+  late Map<GridPoint, int> gCost; 
+  late int Function(GridPoint, GridPoint) heuristic;
 
-  AstarState({
+   GridAstarState({
     required super.start,
     required super.target,
     required super.grid,
@@ -66,23 +66,23 @@ class AstarState extends PathFindingState {
     required this.heuristic,
   });
 
-  AstarState.init(
-    Point start,
-    Point target,
-    List<List<Node>> grid,
+   GridAstarState.init(
+    GridPoint start,
+    GridPoint target,
+    List<List<NodeState>> grid,
     bool allowDiagonals,
   ) : super.init(start, target, grid, allowDiagonals) {
     heuristic = allowDiagonals ? chebyshev : taxicab;
     gCost = {start: 0};
     fCost = {start: heuristic(start, target)};
-    open = PriorityQueue<Point>((a, b) => fCost[a]!.compareTo(fCost[b]!));
+    open = PriorityQueue<GridPoint>((a, b) => fCost[a]!.compareTo(fCost[b]!));
     open.add(start);
-    start.set(grid, Node.open);
+    start.set(grid, NodeState.open);
   }
 
   @override
-  AstarState copy() {
-    var newState = AstarState(
+   GridAstarState copy() {
+    var newState =  GridAstarState(
       start: start,
       target: target,
       grid: List.generate(grid.length, (i) => List.from(grid[i])),
@@ -90,22 +90,22 @@ class AstarState extends PathFindingState {
       dirs: List.from(dirs),
       gCost: Map.from(gCost),
       fCost: Map.from(fCost),
-      open: PriorityQueue<Point>((a, b) => fCost[a]!.compareTo(fCost[b]!)),
+      open: PriorityQueue<GridPoint>((a, b) => fCost[a]!.compareTo(fCost[b]!)),
       status: status,
       heuristic: heuristic,
     );
 
-    newState.open = PriorityQueue<Point>((a, b) => newState.fCost[a]!.compareTo(newState.fCost[b]!));
+    newState.open = PriorityQueue<GridPoint>((a, b) => newState.fCost[a]!.compareTo(newState.fCost[b]!));
     newState.open.addAll(open.toList());
 
     return newState;
   }
 }
 
-int taxicab(Point lhs, Point rhs) {
+int taxicab(GridPoint lhs, GridPoint rhs) {
   return (lhs.x - rhs.x).abs() + (lhs.y - rhs.y).abs();
 }
 
-int chebyshev(Point lhs, Point rhs) {
+int chebyshev(GridPoint lhs, GridPoint rhs) {
   return max((lhs.x - rhs.x).abs(), (lhs.y - rhs.y).abs());
 } 
