@@ -1,9 +1,9 @@
 import 'dart:collection';
 import 'package:gridfind/gridfind.dart';
 
-class GridBFS extends GridStrategy< GridBFSState> {
+class GridBFS extends GridStrategy<GridBFSState> {
   @override
-  void searchStep( GridBFSState state) {
+  void searchStep(GridBFSState state) {
     // If there is no open GridNode, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
@@ -34,10 +34,10 @@ class GridBFS extends GridStrategy< GridBFSState> {
   }
 }
 
-class  GridBFSState extends GridState {
+class GridBFSState extends GridState {
   late Queue<GridPoint> open;
 
-   GridBFSState({
+  GridBFSState({
     required super.start,
     required super.target,
     required super.grid,
@@ -47,7 +47,7 @@ class  GridBFSState extends GridState {
     required this.open,
   });
 
-   GridBFSState.init(
+  GridBFSState.init(
     GridPoint start,
     GridPoint target,
     List<List<GridNode>> grid,
@@ -59,8 +59,8 @@ class  GridBFSState extends GridState {
   }
 
   @override
-   GridBFSState copy() {
-    return  GridBFSState(
+  GridBFSState copy() {
+    return GridBFSState(
       start: start,
       target: target,
       grid: List.generate(grid.length, (i) => List.from(grid[i])),

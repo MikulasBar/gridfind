@@ -10,14 +10,11 @@ abstract class GraphStrategy<S extends GraphState> {
   ///
   /// If path doesn't exists return `null`.
   List<GraphPoint>? solve(S state) {
-    var status = state.status;
-    while (status == Status.searching) {
-      // state.print(); // debug purposes only
+    while (state.status == Status.searching) {
       searchStep(state);
-      status = state.status;
     }
 
-    return switch (status) {
+    return switch (state.status) {
       Status.success => constructPath(state),
       Status.failure => null,
       _ => throw Exception("Unreachable branch"),
@@ -36,7 +33,7 @@ abstract class GraphStrategy<S extends GraphState> {
     while (current != state.start) {
       path.add(current);
       final parentId = state.parents[current.id]!;
-      current = state.getPoint(parentId)!;
+      current = state.getPoint(parentId);
     }
 
     path.add(state.start);

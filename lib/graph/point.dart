@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 class GraphPoint {
   int id;
   double x;
@@ -30,5 +32,11 @@ class GraphPoint {
       x ?? this.x,
       y ?? this.y,
     );
+  }
+
+  double dist(GraphPoint other) {
+    final dx = x - other.x;
+    final dy = y - other.y;
+    return sqrt(dx * dx + dy * dy);
   }
 }

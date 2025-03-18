@@ -28,19 +28,18 @@ abstract class GraphState {
     this.targetId,
     this.coords,
     this.edges,
-    bool allowDiagonals,
   )   : parents = HashMap(),
         status = Status.searching,
         nodes = HashMap();
 
   GraphState copy();
 
-  GraphPoint get start => getPoint(startId)!;
-  GraphPoint get target => getPoint(targetId)!;
+  GraphPoint get start => getPoint(startId);
+  GraphPoint get target => getPoint(targetId);
 
-  GraphPoint? getPoint(int id) {
+  GraphPoint getPoint(int id) {
     final point = coords[id];
-    return point == null ? null : GraphPoint(id, point.$1, point.$2);
+    return GraphPoint(id, point!.$1, point.$2);
   }
 
   GraphNode getNode(int id) {
