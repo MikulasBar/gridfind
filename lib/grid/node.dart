@@ -1,5 +1,5 @@
  
-enum NodeState {
+enum GridNode {
   idle,
   obstacle,
   open,

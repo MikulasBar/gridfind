@@ -1,12 +1,15 @@
-import 'package:gridfind/gridfind.dart';
+import 'package:gridfind/graph/point.dart';
+import 'package:gridfind/status.dart';
 
-abstract class GridStrategy<S extends GridState> {
+import 'state.dart';
+
+abstract class GraphStrategy<S extends GraphState> {
   void searchStep(S state);
 
   /// Find the whole path to the target given a state.
   ///
   /// If path doesn't exists return `null`.
-  List<GridPoint>? solve(S state) {
+  List<GraphPoint>? solve(S state) {
     var status = state.status;
     while (status == Status.searching) {
       // state.print(); // debug purposes only
@@ -26,13 +29,14 @@ abstract class GridStrategy<S extends GridState> {
   /// This function assumes that the searching algorithm already end up on target.
   ///
   /// If There is no valid path, it will throw error.
-  List<GridPoint> constructPath(S state) {
-    List<GridPoint> path = [];
+  List<GraphPoint> constructPath(S state) {
+    List<GraphPoint> path = [];
     var current = state.target;
 
     while (current != state.start) {
       path.add(current);
-      current = state.parents[current]!;
+      final parentId = state.parents[current.id]!;
+      current = state.getPoint(parentId)!;
     }
 
     path.add(state.start);

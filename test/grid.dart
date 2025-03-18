@@ -70,6 +70,6 @@ void main() {
   });
 }
 
-List<List<NodeState>> createNewGrid(int width, int height) {
-  return List.generate(width, (_) => List.generate(height, (_) => NodeState.idle));
+List<List<GridNode>> createNewGrid(int width, int height) {
+  return List.generate(width, (_) => List.generate(height, (_) => GridNode.idle));
 }

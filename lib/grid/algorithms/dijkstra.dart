@@ -8,16 +8,16 @@ import 'package:gridfind/gridfind.dart';
 class GridDijkstra extends GridStrategy<GridDijkstraState> {
   @override
   void searchStep(GridDijkstraState state) {
-    // If there is no open NodeState, we are stuck.
+    // If there is no open GridNode, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
       return;
     }
 
     GridPoint point = state.open.removeFirst();
-    point.set(state.grid, NodeState.closed);
+    point.set(state.grid, GridNode.closed);
 
-    // If the target NodeState is reached, we are done.
+    // If the target GridNode is reached, we are done.
     if (point == state.target) {
       state.status = Status.success;
       return;
@@ -27,8 +27,8 @@ class GridDijkstra extends GridStrategy<GridDijkstraState> {
       GridPoint newPos = GridPoint(point.x + i, point.y + j);
       if (state.isUntraversable(newPos)) continue;
 
-      NodeState newNodeState = newPos.get(state.grid);
-      if (newNodeState == NodeState.closed) continue;
+      GridNode newGridNode = newPos.get(state.grid);
+      if (newGridNode == GridNode.closed) continue;
 
       int newGCost = state.gCost[point]! + 1; // Assuming uniform cost
 
@@ -36,9 +36,9 @@ class GridDijkstra extends GridStrategy<GridDijkstraState> {
         state.parents[newPos] = point;
         state.gCost[newPos] = newGCost;
 
-        if (newNodeState != NodeState.open) {
+        if (newGridNode != GridNode.open) {
           state.open.add(newPos);
-          newPos.set(state.grid, NodeState.open);
+          newPos.set(state.grid, GridNode.open);
         }
       }
     }
@@ -64,13 +64,13 @@ class GridDijkstraState extends GridState {
   GridDijkstraState.init(
     GridPoint start,
     GridPoint target,
-    List<List<NodeState>> grid,
+    List<List<GridNode>> grid,
     bool allowDiagonals,
   ) : super.init(start, target, grid, allowDiagonals) {
     gCost = {start: 0};
     open = PriorityQueue<GridPoint>((a, b) => gCost[a]!.compareTo(gCost[b]!));
     open.add(start);
-    start.set(grid, NodeState.open);
+    start.set(grid, GridNode.open);
   }
 
   @override

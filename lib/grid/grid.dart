@@ -2,7 +2,7 @@ library gridfind.grid;
 
 export '../status.dart';
 
-export 'node_state.dart';
+export 'node.dart';
 export 'point.dart';
 export 'state.dart';
 export 'strategy.dart';

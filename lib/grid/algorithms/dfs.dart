@@ -8,17 +8,17 @@ class GridDFS extends GridStrategy<GridDFSState> {
 
   @override
   void searchStep(GridDFSState state) {
-    // If there is no open NodeState, we are stuck.
+    // If there is no open GridNode, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
       return;
     }
 
     GridPoint point = state.open.removeLast();
-    point.set(state.grid, NodeState.closed);
+    point.set(state.grid, GridNode.closed);
 
-    // We can return because the target NodeState is reached.
-    if (state.target.get(state.grid) == NodeState.closed) {
+    // We can return because the target GridNode is reached.
+    if (state.target.get(state.grid) == GridNode.closed) {
       state.status = Status.success;
       return;
     }
@@ -26,13 +26,13 @@ class GridDFS extends GridStrategy<GridDFSState> {
     for (var (i, j) in state.dirs) {
       GridPoint newPos = GridPoint(point.x + i, point.y + j);
       if (state.isUntraversable(newPos)) continue;
-      NodeState newNodeState = newPos.get(state.grid);
-      if (newNodeState == NodeState.closed) continue;
+      GridNode newGridNode = newPos.get(state.grid);
+      if (newGridNode == GridNode.closed) continue;
 
-      if (newNodeState != NodeState.open) {
+      if (newGridNode != GridNode.open) {
         state.parents[newPos] = point;
         state.open.add(newPos);
-        newPos.set(state.grid, NodeState.open);
+        newPos.set(state.grid, GridNode.open);
       }
     }
   }
@@ -55,11 +55,11 @@ class GridDFSState extends GridState {
   GridDFSState.init(
     GridPoint start,
     GridPoint target,
-    List<List<NodeState>> grid,
+    List<List<GridNode>> grid,
     bool allowDiagonals,
   ) : super.init(start, target, grid, allowDiagonals) {
     open = [start];
-    start.set(grid, NodeState.open);
+    start.set(grid, GridNode.open);
   }
 
   @override

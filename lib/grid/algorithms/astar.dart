@@ -8,17 +8,17 @@ import 'package:gridfind/grid/grid.dart';
 class GridAstar extends GridStrategy<GridAstarState> {
   @override
   void searchStep(GridAstarState state) {
-    // If there is no open NodeState, we are stuck.
+    // If there is no open GridNode, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
       return;
     }
 
     GridPoint point = state.open.removeFirst();
-    point.set(state.grid, NodeState.closed);
+    point.set(state.grid, GridNode.closed);
 
-    // If the target NodeState is reached, we are done.
-    if (state.target.get(state.grid) == NodeState.closed) {
+    // If the target GridNode is reached, we are done.
+    if (state.target.get(state.grid) == GridNode.closed) {
       state.status = Status.success;
       return;
     }
@@ -27,8 +27,8 @@ class GridAstar extends GridStrategy<GridAstarState> {
       GridPoint newPos = GridPoint(point.x + i, point.y + j);
       if (state.isUntraversable(newPos)) continue;
 
-      NodeState newNodeState = newPos.get(state.grid);
-      if (newNodeState == NodeState.closed) continue;
+      GridNode newGridNode = newPos.get(state.grid);
+      if (newGridNode == GridNode.closed) continue;
 
       int newGCost = state.gCost[point]! + 1; // Assuming uniform cost
 
@@ -37,9 +37,9 @@ class GridAstar extends GridStrategy<GridAstarState> {
         state.gCost[newPos] = newGCost;
         state.fCost[newPos] = newGCost + state.heuristic(newPos, state.target);
 
-        if (newNodeState != NodeState.open) {
+        if (newGridNode != GridNode.open) {
           state.open.add(newPos);
-          newPos.set(state.grid, NodeState.open);
+          newPos.set(state.grid, GridNode.open);
         }
       }
     }
@@ -69,7 +69,7 @@ class GridAstarState extends GridState {
    GridAstarState.init(
     GridPoint start,
     GridPoint target,
-    List<List<NodeState>> grid,
+    List<List<GridNode>> grid,
     bool allowDiagonals,
   ) : super.init(start, target, grid, allowDiagonals) {
     heuristic = allowDiagonals ? chebyshev : taxicab;
@@ -77,7 +77,7 @@ class GridAstarState extends GridState {
     fCost = {start: heuristic(start, target)};
     open = PriorityQueue<GridPoint>((a, b) => fCost[a]!.compareTo(fCost[b]!));
     open.add(start);
-    start.set(grid, NodeState.open);
+    start.set(grid, GridNode.open);
   }
 
   @override

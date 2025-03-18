@@ -1,5 +1,5 @@
 enum Status {
-  search,
+  searching,
   success,
   failure,
 }
