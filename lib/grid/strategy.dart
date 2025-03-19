@@ -7,14 +7,11 @@ abstract class GridStrategy<S extends GridState> {
   ///
   /// If path doesn't exists return `null`.
   List<GridPoint>? solve(S state) {
-    var status = state.status;
-    while (status == Status.searching) {
-      // state.print(); // debug purposes only
+    while (state.status == Status.searching) {
       searchStep(state);
-      status = state.status;
     }
 
-    return switch (status) {
+    return switch (state.status) {
       Status.success => constructPath(state),
       Status.failure => null,
       _ => throw Exception("Unreachable branch"),

@@ -1,9 +1,10 @@
 
 
 import 'dart:math';
+import 'graph.dart';
 
 class GraphPoint {
-  int id;
+  ID id;
   double x;
   double y;
 
@@ -23,7 +24,7 @@ class GraphPoint {
   int get hashCode => id.hashCode ^ x.hashCode ^ y.hashCode;
 
   GraphPoint copyWith({
-    int? id,
+    ID? id,
     double? x,
     double? y,
   }) {

@@ -1,16 +1,17 @@
 import 'dart:collection';
 
 import '../status.dart';
+import 'graph.dart';
 import 'point.dart';
 import 'node.dart';
 
 abstract class GraphState {
-  int startId;
-  int targetId;
-  HashMap<int, HashSet<int>> edges;
-  HashMap<int, (double, double)> coords;
-  HashMap<int, GraphNode> nodes;
-  HashMap<int, int> parents = HashMap<int, int>();
+  ID startId;
+  ID targetId;
+  HashMap<ID, HashSet<ID>> edges;
+  HashMap<ID, (double, double)> coords;
+  HashMap<ID, GraphNode> nodes;
+  HashMap<ID, ID> parents;
   Status status;
 
   GraphState({
@@ -37,12 +38,12 @@ abstract class GraphState {
   GraphPoint get start => getPoint(startId);
   GraphPoint get target => getPoint(targetId);
 
-  GraphPoint getPoint(int id) {
+  GraphPoint getPoint(ID id) {
     final point = coords[id];
     return GraphPoint(id, point!.$1, point.$2);
   }
 
-  GraphNode getNode(int id) {
+  GraphNode getNode(ID id) {
     return nodes[id] ?? GraphNode.idle;
   }
 }

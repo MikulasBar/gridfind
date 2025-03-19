@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:gridfind/graph/node.dart';
 import 'package:gridfind/status.dart';
 
+import '../graph.dart';
 import '../strategy.dart';
 import '../state.dart';
 
@@ -15,7 +16,7 @@ class GraphBFS extends GraphStrategy<GraphBFSState> {
       return;
     }
 
-    int pointId = state.open.removeFirst();
+    ID pointId = state.open.removeFirst();
     state.nodes[pointId] = GraphNode.closed;
 
     // We can return because the target is reached.
@@ -24,13 +25,7 @@ class GraphBFS extends GraphStrategy<GraphBFSState> {
       return;
     }
 
-    // // If there is no edge from this point, we are stuck.
-    // if (state.edges[pointId] == null) {
-    //   state.status = Status.failure;
-    //   return;
-    // }
-
-    for (int newId in state.edges[pointId] ?? []) {
+    for (ID newId in state.edges[pointId] ?? []) {
       GraphNode newNode = state.getNode(newId);
       if (newNode == GraphNode.closed) continue;
 
@@ -44,7 +39,7 @@ class GraphBFS extends GraphStrategy<GraphBFSState> {
 }
 
 class GraphBFSState extends GraphState {
-  late Queue<int> open;
+  late Queue<ID> open;
 
   GraphBFSState({
     required super.startId,
@@ -58,12 +53,12 @@ class GraphBFSState extends GraphState {
   });
 
   GraphBFSState.init(
-    int startId,
-    int targetId,
-    HashMap<int, (double, double)> coords,
-    HashMap<int, HashSet<int>> edges,
+    ID startId,
+    ID targetId,
+    HashMap<ID, (double, double)> coords,
+    HashMap<ID, HashSet<ID>> edges,
   ) : super.init(startId, targetId, coords, edges) {
-    open = Queue<int>();
+    open = Queue<ID>();
     open.add(startId);
   }
 

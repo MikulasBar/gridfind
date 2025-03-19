@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:gridfind/graph/algorithms/astar.dart';
 import 'package:gridfind/graph/algorithms/bfs.dart';
 import 'package:test/test.dart';
 
@@ -38,6 +39,25 @@ void main() {
       );
 
       final path = GraphBFS().solve(state);
+
+      expect(path, isNotNull);
+      expect(path?.length, equals(4));
+    });
+  });
+
+
+  group('Astar', () {
+    test('solve', () {
+      final startId = 0;
+      final targetId = 6;
+      var state = GraphAstarState.init(
+        startId,
+        targetId,
+        HashMap.from(coords),
+        HashMap.from(edges),
+      );
+
+      final path = GraphAstar().solve(state);
 
       expect(path, isNotNull);
       expect(path?.length, equals(4));
