@@ -1,12 +1,7 @@
 import 'dart:collection';
 import 'package:collection/collection.dart';
-import 'package:gridfind/status.dart';
 
 import '../graph.dart';
-import '../point.dart';
-import '../state.dart';
-import '../node.dart';
-import '../strategy.dart';
 
 class GraphDijkstra extends GraphStrategy<GraphDijkstraState> {
   @override

@@ -1,9 +1,6 @@
 import 'dart:collection';
 
-import '../status.dart';
 import 'graph.dart';
-import 'point.dart';
-import 'node.dart';
 
 abstract class GraphState {
   ID startId;

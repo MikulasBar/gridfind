@@ -1,11 +1,6 @@
 import 'dart:collection';
 
-import 'package:gridfind/graph/node.dart';
-import 'package:gridfind/status.dart';
-
 import '../graph.dart';
-import '../strategy.dart';
-import '../state.dart';
 
 class GraphBFS extends GraphStrategy<GraphBFSState> {
   @override
