@@ -34,7 +34,8 @@ class GridAstar extends GridStrategy<GridAstarState> {
 
       state.parents[newPoint] = point;
       state.gCost[newPoint] = newGCost;
-      state.fCost[newPoint] = newGCost + state.heuristic(newPoint, state.target);
+      state.fCost[newPoint] =
+          newGCost + state.heuristic(newPoint, state.target);
 
       if (newNode != GridNode.open) {
         state.open.add(newPoint);

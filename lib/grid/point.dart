@@ -23,4 +23,9 @@ class GridPoint {
   void set<T>(List<List<T>> grid, T val) {
     grid[x][y] = val;
   }
+
+  @override
+  String toString() {
+    return '($x, $y)';
+  }
 }

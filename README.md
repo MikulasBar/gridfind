@@ -6,15 +6,22 @@
 [![Pub Popularity](https://img.shields.io/pub/popularity/gridfind)](https://pub.dev/packages/gridfind/score)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Provides path finding algorithms for 2D n*m grid.
+Gridfind is a Dart package that provides a collection of pathfinding algorithms for both 2D grids and graphs. It is designed to be easy to use.
 
-There is currently only GridBFS algorithm.
 
 ## Features
 
-- Breadth-First Search (BFS) algorithm for pathfinding
-- Easy to use API
-- Customizable grid size and nodes
+### Grid-Based Pathfinding
+- BFS
+- DFS
+- Dijkstra's Algorithm
+- A* Algorithm
+- Diagonal Movement Support: Option to allow diagonal movement in grid-based pathfinding.
+
+### Graph-Based Pathfinding
+- BFS
+- Dijkstra's Algorithm
+- A* Algorithm
 
 ## Examples
 
@@ -22,15 +29,15 @@ There is currently only GridBFS algorithm.
 import 'package:gridfind/gridfind.dart';
 
 void main() {
-  final start = Point(0, 0);
-  final target = Point(2, 3);
-  const size = 5;
-  final grid = List.generate(size, (_) => List.generate(size, (_) => Node.idle));
+  final start = GridPoint(2, 3);
+  final target = GridPoint(7, 6);
+  const width = 10;
+  const height = 18;
+  final grid = List.generate(width, (_) => List.generate(height, (_) => GridNode.idle));
+  var state =  GridAstarState.init(start, target, grid, false);
+  final path = GridAstar().solve(state);
 
-  var state =  GridBFSState.init(start, target, grid);
-  final path = BFS().solve(state);
-
-  print(path);
+  print(path?.map((e) => e).join(' -> '));
 }
 ```
 

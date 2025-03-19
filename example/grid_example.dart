@@ -9,5 +9,5 @@ void main() {
   var state =  GridAstarState.init(start, target, grid, false);
   final path = GridAstar().solve(state);
 
-  print(path);
+  print(path?.map((e) => e).join(' -> '));
 }

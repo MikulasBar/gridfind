@@ -40,4 +40,7 @@ class GraphPoint {
     final dy = y - other.y;
     return sqrt(dx * dx + dy * dy);
   }
+
+  @override
+  String toString() => '($id, $x, $y)';
 }

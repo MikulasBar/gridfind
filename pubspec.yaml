@@ -1,6 +1,6 @@
 name: gridfind
-description: path finding algorithms for 2D grid
-version: 0.2.0-beta
+description: path finding algorithms for 2D grid and graph
+version: 0.3.0
 repository: https://github.com/MikulasBar/gridfind
 
 environment:

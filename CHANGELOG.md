@@ -20,3 +20,13 @@
 ## 0.2.0-beta - 2024-12-31
 ### Added
 - Added DFS, A*, Dijkstra algorithms.
+
+## 0.3.0 - 2024-12-31
+### Added
+- Added Graph-based searching.
+- Added GraphBFS, GraphDijkstra, GraphAstar algorithms.
+
+### Changed
+- Refactor of BFS, DFS, A*, Dijkstra algorithms.
+- Rename them into GridBFS, GridDFS, GridAstar, GridDijkstra.
+

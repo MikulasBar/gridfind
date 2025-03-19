@@ -1,11 +1,10 @@
 import 'dart:collection';
 
-import 'package:gridfind/graph/algorithms/astar.dart';
-import 'package:gridfind/graph/algorithms/bfs.dart';
+import 'package:gridfind/graph/graph.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final coords = HashMap<int, (double, double)>.from({
+  final coords = HashMap<ID, (double, double)>.from({
     0: (0.0, 1.0),
     1: (1.0, 2.0),
     2: (1.0, 3.0),
@@ -15,15 +14,15 @@ void main() {
     6: (0.0, 4.0),
   });
 
-  final edges = HashMap<int, List<int>>.from({
-    0: {1, 2, 3},
-    1: {0, 2, 4},
-    2: {0, 1, 3, 5},
-    3: {0, 2, 5},
-    4: {1, 5},
-    5: {2, 3, 4, 6},
-    6: {3, 5},
-  }.map((key, val) => MapEntry(key, List<int>.from(val))));
+  final edges = HashMap<ID, List<ID>>.from({
+    0: [1, 2, 3],
+    1: [0, 2, 4],
+    2: [0, 1, 3, 5],
+    3: [0, 2, 5],
+    4: [1, 5],
+    5: [2, 3, 4, 6],
+    6: [3, 5],
+  });
 
   group('BFS', () {
     test('solve', () {
