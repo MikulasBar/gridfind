@@ -1,4 +1,3 @@
-
 class GridPoint {
   int x;
   int y;
@@ -25,4 +24,3 @@ class GridPoint {
     grid[x][y] = val;
   }
 }
-

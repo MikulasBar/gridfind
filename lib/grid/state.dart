@@ -42,15 +42,4 @@ abstract class GridState {
         p.y >= height ||
         p.get(grid) == GridNode.obstacle;
   }
-
-  // void print() {
-
-  //   for (var i = 0; i < width; i++) {
-  //     for (var j = 0; j < height; j++) {
-  //       stdout.write(grid[i][j].toChar());
-  //     }
-  //     stdout.writeln();
-  //   }
-  //   stdout.writeln();
-  // }
 }

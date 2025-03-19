@@ -1,5 +1,3 @@
-
-
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
@@ -45,10 +43,9 @@ class GridDijkstra extends GridStrategy<GridDijkstraState> {
   }
 }
 
-
 class GridDijkstraState extends GridState {
   late PriorityQueue<GridPoint> open;
-  late Map<GridPoint, int> gCost;
+  late HashMap<GridPoint, int> gCost;
 
   GridDijkstraState({
     required super.start,
@@ -67,7 +64,7 @@ class GridDijkstraState extends GridState {
     List<List<GridNode>> grid,
     bool allowDiagonals,
   ) : super.init(start, target, grid, allowDiagonals) {
-    gCost = {start: 0};
+    gCost = HashMap.from({start: 0});
     open = PriorityQueue<GridPoint>((a, b) => gCost[a]!.compareTo(gCost[b]!));
     open.add(start);
     start.set(grid, GridNode.open);
@@ -81,13 +78,18 @@ class GridDijkstraState extends GridState {
       grid: List.generate(grid.length, (i) => List.from(grid[i])),
       parents: HashMap.from(parents),
       dirs: List.from(dirs),
-      gCost: Map.from(gCost),
+      gCost: HashMap.from(gCost),
       open: PriorityQueue<GridPoint>((a, b) => gCost[a]!.compareTo(gCost[b]!)),
       status: status,
     );
 
-    newState.open = PriorityQueue<GridPoint>((a, b) => newState.gCost[a]!.compareTo(newState.gCost[b]!));
-    newState.open.addAll(open.toList());
+    newState.open = PriorityQueue<GridPoint>(
+      (a, b) => newState.gCost[a]!.compareTo(newState.gCost[b]!),
+    );
+
+    newState.open.addAll(
+      open.toList(),
+    );
 
     return newState;
   }

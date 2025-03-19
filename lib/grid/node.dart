@@ -1,4 +1,3 @@
- 
 enum GridNode {
   idle,
   obstacle,

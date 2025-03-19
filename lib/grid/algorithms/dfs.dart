@@ -1,11 +1,8 @@
-
-
 import 'dart:collection';
 
 import 'package:gridfind/gridfind.dart';
 
 class GridDFS extends GridStrategy<GridDFSState> {
-
   @override
   void searchStep(GridDFSState state) {
     // If there is no open GridNode, we are stuck.
@@ -37,7 +34,6 @@ class GridDFS extends GridStrategy<GridDFSState> {
     }
   }
 }
-
 
 class GridDFSState extends GridState {
   late List<GridPoint> open;
