@@ -21,7 +21,7 @@
 ### Added
 - Added DFS, A*, Dijkstra algorithms.
 
-## 0.3.0 - 2024-12-31
+## 1.0.0 - 2025-3-19
 ### Added
 - Added Graph-based searching.
 - Added GraphBFS, GraphDijkstra, GraphAstar algorithms.
