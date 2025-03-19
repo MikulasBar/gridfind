@@ -56,7 +56,7 @@ class GraphBFSState extends GraphState {
     ID startId,
     ID targetId,
     HashMap<ID, (double, double)> coords,
-    HashMap<ID, HashSet<ID>> edges,
+    HashMap<ID, List<ID>> edges,
   ) : super.init(startId, targetId, coords, edges) {
     open = Queue<ID>();
     open.add(startId);

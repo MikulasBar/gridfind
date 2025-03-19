@@ -10,7 +10,7 @@ void main() {
   group('Astar', () {
     test('solve', () {
       final grid = createNewGrid(width, height);
-      var state =  GridAstarState.init(start, target, grid, false);
+      var state = GridAstarState.init(start, target, grid, false);
       final path = GridAstar().solve(state);
 
       expect(path, isNotNull);
@@ -19,19 +19,18 @@ void main() {
 
     test('solve with diagonal', () {
       final grid = createNewGrid(width, height);
-      var state =  GridAstarState.init(start, target, grid, true);
+      var state = GridAstarState.init(start, target, grid, true);
       final path = GridAstar().solve(state);
 
       expect(path, isNotNull);
       expect(path?.length, equals(6));
     });
   });
-
 
   group('BFS', () {
     test('solve', () {
       final grid = createNewGrid(width, height);
-      var state =  GridBFSState.init(start, target, List.from(grid), false);
+      var state = GridBFSState.init(start, target, List.from(grid), false);
       final path = GridBFS().solve(state);
 
       expect(path, isNotNull);
@@ -40,7 +39,7 @@ void main() {
 
     test('solve with diagonal', () {
       final grid = createNewGrid(width, height);
-      var state =  GridBFSState.init(start, target, List.from(grid), true);
+      var state = GridBFSState.init(start, target, List.from(grid), true);
       final path = GridBFS().solve(state);
 
       expect(path, isNotNull);
@@ -48,11 +47,10 @@ void main() {
     });
   });
 
-
   group('Dijkstra', () {
     test('solve', () {
       final grid = createNewGrid(width, height);
-      var state =  GridDijkstraState.init(start, target, List.from(grid), false);
+      var state = GridDijkstraState.init(start, target, List.from(grid), false);
       final path = GridDijkstra().solve(state);
 
       expect(path, isNotNull);
@@ -61,7 +59,7 @@ void main() {
 
     test('solve with diagonal', () {
       final grid = createNewGrid(width, height);
-      var state =  GridDijkstraState.init(start, target, List.from(grid), true);
+      var state = GridDijkstraState.init(start, target, List.from(grid), true);
       final path = GridDijkstra().solve(state);
 
       expect(path, isNotNull);
@@ -71,5 +69,6 @@ void main() {
 }
 
 List<List<GridNode>> createNewGrid(int width, int height) {
-  return List.generate(width, (_) => List.generate(height, (_) => GridNode.idle));
+  return List.generate(
+      width, (_) => List.generate(height, (_) => GridNode.idle));
 }

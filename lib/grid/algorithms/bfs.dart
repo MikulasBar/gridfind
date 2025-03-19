@@ -4,7 +4,7 @@ import 'package:gridfind/gridfind.dart';
 class GridBFS extends GridStrategy<GridBFSState> {
   @override
   void searchStep(GridBFSState state) {
-    // If there is no open GridNode, we are stuck.
+    // If there is no open node, we are stuck.
     if (state.open.isEmpty) {
       state.status = Status.failure;
       return;
@@ -13,22 +13,22 @@ class GridBFS extends GridStrategy<GridBFSState> {
     GridPoint point = state.open.removeFirst();
     point.set(state.grid, GridNode.closed);
 
-    // We can return because the target GridNode is reached.
+    // We can return because the target node is reached.
     if (state.target.get(state.grid) == GridNode.closed) {
       state.status = Status.success;
       return;
     }
 
     for (var (i, j) in state.dirs) {
-      GridPoint newPos = GridPoint(point.x + i, point.y + j);
-      if (state.isUntraversable(newPos)) continue;
-      GridNode newGridNode = newPos.get(state.grid);
-      if (newGridNode == GridNode.closed) continue;
+      GridPoint newPoint = GridPoint(point.x + i, point.y + j);
+      if (state.isUntraversable(newPoint)) continue;
+      GridNode newNode = newPoint.get(state.grid);
+      if (newNode == GridNode.closed) continue;
 
-      if (newGridNode != GridNode.open) {
-        state.parents[newPos] = point;
-        state.open.add(newPos);
-        newPos.set(state.grid, GridNode.open);
+      if (newNode != GridNode.open) {
+        state.parents[newPoint] = point;
+        state.open.add(newPoint);
+        newPoint.set(state.grid, GridNode.open);
       }
     }
   }

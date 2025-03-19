@@ -8,7 +8,7 @@ import 'node.dart';
 abstract class GraphState {
   ID startId;
   ID targetId;
-  HashMap<ID, HashSet<ID>> edges;
+  HashMap<ID, List<ID>> edges;
   HashMap<ID, (double, double)> coords;
   HashMap<ID, GraphNode> nodes;
   HashMap<ID, ID> parents;

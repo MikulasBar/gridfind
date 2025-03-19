@@ -53,7 +53,7 @@ class GraphAstar extends GraphStrategy<GraphAstarState> {
 class GraphAstarState extends GraphState {
   late PriorityQueue<ID> open;
   late HashMap<ID, double> fCost;
-  late HashMap<ID, double> gCost; 
+  late HashMap<ID, double> gCost;
 
   GraphAstarState({
     required super.startId,
@@ -69,7 +69,7 @@ class GraphAstarState extends GraphState {
     ID startId,
     ID targetId,
     HashMap<ID, (double, double)> coords,
-    HashMap<ID, HashSet<ID>> edges,
+    HashMap<ID, List<ID>> edges,
   ) : super.init(startId, targetId, coords, edges) {
     gCost = HashMap.from({startId: 0.0});
     fCost = HashMap.from({startId: start.dist(target)});
