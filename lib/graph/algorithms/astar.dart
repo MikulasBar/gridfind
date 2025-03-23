@@ -58,6 +58,9 @@ class GraphAstarState extends GraphState {
     required super.edges,
     required super.coords,
     required super.nodes,
+    required this.open,
+    required this.fCost,
+    required this.gCost,
   });
 
   GraphAstarState.init(
@@ -75,7 +78,7 @@ class GraphAstarState extends GraphState {
 
   @override
   GraphState copy() {
-    return GraphAstarState(
+    GraphAstarState newState = GraphAstarState(
       startId: startId,
       targetId: targetId,
       status: status,
@@ -83,6 +86,26 @@ class GraphAstarState extends GraphState {
       edges: HashMap.from(edges),
       coords: HashMap.from(coords),
       nodes: HashMap.from(nodes),
+      open: PriorityQueue((a, b) => fCost[a]!.compareTo(fCost[b]!)),
+      gCost: HashMap.from(gCost),
+      fCost: HashMap.from(fCost),
     );
+
+    newState.open.addAll(open.toList());
+
+    return newState;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    final mapEquality = const MapEquality();
+    final listEquality = const ListEquality();
+    if (other is GraphAstarState) {
+      return super == other &&
+          mapEquality.equals(fCost, other.fCost) &&
+          mapEquality.equals(gCost, other.gCost) &&
+          listEquality.equals(open.toList(), other.open.toList());
+    }
+    return false;
   }
 }

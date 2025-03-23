@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+
 import 'graph.dart';
 
 abstract class GraphState {
@@ -42,5 +44,20 @@ abstract class GraphState {
 
   GraphNode getNode(ID id) {
     return nodes[id] ?? GraphNode.idle;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is GraphState) {
+      final mapEquality = const MapEquality();
+      return other.startId == startId &&
+          other.targetId == targetId &&
+          mapEquality.equals(other.edges, edges) &&
+          mapEquality.equals(other.coords, coords) &&
+          mapEquality.equals(other.nodes, nodes) &&
+          mapEquality.equals(other.parents, parents) &&
+          other.status == status;
+    }
+    return false;
   }
 }

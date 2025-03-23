@@ -83,14 +83,23 @@ class GridDijkstraState extends GridState {
       status: status,
     );
 
-    newState.open = PriorityQueue<GridPoint>(
-      (a, b) => newState.gCost[a]!.compareTo(newState.gCost[b]!),
-    );
-
     newState.open.addAll(
       open.toList(),
     );
 
     return newState;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is GridDijkstraState) {
+      final mapEquality = const MapEquality();
+
+      return other.start == start &&
+          other.target == target &&
+          mapEquality.equals(other.parents, parents) &&
+          other.status == status;
+    }
+    return false;
   }
 }

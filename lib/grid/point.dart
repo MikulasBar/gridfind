@@ -6,7 +6,6 @@ class GridPoint {
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
     if (other is! GridPoint) return false;
     return x == other.x && y == other.y;
   }

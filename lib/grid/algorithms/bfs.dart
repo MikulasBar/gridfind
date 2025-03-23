@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:collection/collection.dart';
 import 'package:gridfind/gridfind.dart';
 
 class GridBFS extends GridStrategy<GridBFSState> {
@@ -69,5 +70,18 @@ class GridBFSState extends GridState {
       open: Queue.from(open),
       status: status,
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is GridBFSState) {
+      final mapEquality = const MapEquality();
+
+      return other.start == start &&
+          other.target == target &&
+          mapEquality.equals(other.parents, parents) &&
+          other.status == status;
+    }
+    return false;
   }
 }

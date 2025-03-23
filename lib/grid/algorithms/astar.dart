@@ -93,11 +93,22 @@ class GridAstarState extends GridState {
       heuristic: heuristic,
     );
 
-    newState.open = PriorityQueue<GridPoint>(
-        (a, b) => newState.fCost[a]!.compareTo(newState.fCost[b]!));
     newState.open.addAll(open.toList());
 
     return newState;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is GridAstarState) {
+      final mapEquality = const MapEquality();
+
+      return other.start == start &&
+          other.target == target &&
+          mapEquality.equals(other.parents, parents) &&
+          other.status == status;
+    }
+    return false;
   }
 }
 

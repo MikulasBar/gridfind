@@ -25,6 +25,14 @@ void main() {
       expect(path, isNotNull);
       expect(path?.length, equals(6));
     });
+
+    test('copy', () {
+      final grid = createNewGrid(width, height);
+      var state = GridAstarState.init(start, target, grid, false);
+      final copy = state.copy();
+
+      expect(copy, equals(state));
+    });
   });
 
   group('BFS', () {
@@ -45,6 +53,14 @@ void main() {
       expect(path, isNotNull);
       expect(path?.length, equals(6));
     });
+
+    test('copy', () {
+      final grid = createNewGrid(width, height);
+      var state = GridBFSState.init(start, target, grid, false);
+      final copy = state.copy();
+
+      expect(copy, equals(state));
+    });
   });
 
   group('Dijkstra', () {
@@ -64,6 +80,14 @@ void main() {
 
       expect(path, isNotNull);
       expect(path?.length, equals(6));
+    });
+
+    test('copy', () {
+      final grid = createNewGrid(width, height);
+      var state = GridAstarState.init(start, target, grid, false);
+      final copy = state.copy();
+
+      expect(copy, equals(state));
     });
   });
 }

@@ -55,6 +55,8 @@ class GraphDijkstraState extends GraphState {
     required super.parents,
     required super.coords,
     required super.status,
+    required this.open,
+    required this.gCost,
   });
 
   GraphDijkstraState.init(
@@ -71,7 +73,7 @@ class GraphDijkstraState extends GraphState {
 
   @override
   GraphState copy() {
-    return GraphDijkstraState(
+    GraphDijkstraState state = GraphDijkstraState(
       startId: startId,
       targetId: targetId,
       status: status,
@@ -79,6 +81,12 @@ class GraphDijkstraState extends GraphState {
       edges: HashMap.from(edges),
       coords: HashMap.from(coords),
       nodes: HashMap.from(nodes),
+      open: PriorityQueue((a, b) => gCost[a]!.compareTo(gCost[b]!)),
+      gCost: HashMap.from(gCost),
     );
+
+    state.open.addAll(open.toList());
+
+    return state;
   }
 }

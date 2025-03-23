@@ -40,6 +40,19 @@ void main() {
       expect(path, isNotNull);
       expect(path?.length, equals(4));
     });
+
+    test('copy', () {
+      final state = GraphBFSState.init(
+        0,
+        6,
+        HashMap.from(coords),
+        HashMap.from(edges),
+      );
+
+      final copy = state.copy();
+
+      expect(copy, equals(state));
+    });
   });
 
   group('Astar', () {
@@ -58,6 +71,19 @@ void main() {
       expect(path, isNotNull);
       expect(path?.length, equals(4));
     });
+
+    test('copy', () {
+      final state = GraphAstarState.init(
+        0,
+        6,
+        HashMap.from(coords),
+        HashMap.from(edges),
+      );
+
+      final copy = state.copy();
+
+      expect(copy, equals(state));
+    });
   });
 
   group('Dijkstra', () {
@@ -75,6 +101,19 @@ void main() {
 
       expect(path, isNotNull);
       expect(path?.length, equals(4));
+    });
+
+    test('copy', () {
+      final state = GraphDijkstraState.init(
+        0,
+        6,
+        HashMap.from(coords),
+        HashMap.from(edges),
+      );
+
+      final copy = state.copy();
+
+      expect(copy, equals(state));
     });
   });
 }

@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
 import 'package:gridfind/gridfind.dart';
 
 class GridDFS extends GridStrategy<GridDFSState> {
@@ -69,5 +70,15 @@ class GridDFSState extends GridState {
       open: List.from(open),
       status: status,
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is GridDFSState) {
+      final listEquality = const ListEquality();
+
+      return super == other && listEquality.equals(other.open, open);
+    }
+    return false;
   }
 }

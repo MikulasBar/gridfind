@@ -30,3 +30,9 @@
 - Refactor of BFS, DFS, A*, Dijkstra algorithms.
 - Rename them into GridBFS, GridDFS, GridAstar, GridDijkstra.
 
+## 1.0.1 - 2025-3-23
+### Added
+- Equality operator for State class. 
+
+### Changed
+- Fix the copy function for State class.
