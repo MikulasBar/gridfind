@@ -93,6 +93,8 @@ class GridAstarState extends GridState {
       heuristic: heuristic,
     );
 
+    newState.open = PriorityQueue<GridPoint>(
+        (a, b) => newState.fCost[a]!.compareTo(newState.fCost[b]!));
     newState.open.addAll(open.toList());
 
     return newState;

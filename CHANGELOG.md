@@ -36,3 +36,7 @@
 
 ### Changed
 - Fix the copy function for State class.
+
+## 1.0.2 - 2025-3-23
+### Changed
+- Fix the connection of open in state for copy function.

@@ -83,6 +83,8 @@ class GridDijkstraState extends GridState {
       status: status,
     );
 
+    newState.open = PriorityQueue<GridPoint>(
+        (a, b) => newState.gCost[a]!.compareTo(newState.gCost[b]!));
     newState.open.addAll(
       open.toList(),
     );

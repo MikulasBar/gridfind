@@ -91,6 +91,8 @@ class GraphAstarState extends GraphState {
       fCost: HashMap.from(fCost),
     );
 
+    newState.open = PriorityQueue<int>(
+        (a, b) => newState.fCost[a]!.compareTo(newState.fCost[b]!));
     newState.open.addAll(open.toList());
 
     return newState;

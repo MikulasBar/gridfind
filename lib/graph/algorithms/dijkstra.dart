@@ -73,7 +73,7 @@ class GraphDijkstraState extends GraphState {
 
   @override
   GraphState copy() {
-    GraphDijkstraState state = GraphDijkstraState(
+    GraphDijkstraState newState = GraphDijkstraState(
       startId: startId,
       targetId: targetId,
       status: status,
@@ -85,8 +85,10 @@ class GraphDijkstraState extends GraphState {
       gCost: HashMap.from(gCost),
     );
 
-    state.open.addAll(open.toList());
+    newState.open = PriorityQueue<int>(
+        (a, b) => newState.gCost[a]!.compareTo(newState.gCost[b]!));
+    newState.open.addAll(open.toList());
 
-    return state;
+    return newState;
   }
 }
